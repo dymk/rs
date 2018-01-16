@@ -1,0 +1,35 @@
+# Travis CI config for rsocket-cpp.
+
+sudo: false
+dist: trusty
+
+language: cpp
+
+os: linux
+
+addons:
+  apt:
+    sources: &common_srcs
+      - ubuntu-toolchain-r-test
+    packages: &common_deps
+      - make
+      - pkg-config
+      - binutils-dev
+      - autoconf
+
+compilers:
+  - clang
+  - gcc
+
+env:
+  global:
+    - CTEST_OUTPUT_ON_FAILURE=1
+
+script:
+  - git submodule --init
+  - git submodule update
+  - mkdir build
+  - cd build
+  - cmake -DSANITIZE_ADDRESS=On ..
+  - make -j4
+  - make test
