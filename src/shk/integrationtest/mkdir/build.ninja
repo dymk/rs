@@ -1,4 +1,0 @@
-rule MKDIR
-  command = mkdir `cat $in`
-
-build out: MKDIR dir_name

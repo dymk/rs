@@ -1,24 +1,7 @@
-[submodule "third_party/re2c"]
-	path = third_party/re2c
-	url = https://github.com/skvadrik/re2c.git
-[submodule "third_party/blake2"]
-	path = third_party/blake2
-	url = https://github.com/BLAKE2/BLAKE2.git
-[submodule "third_party/flatbuffers"]
-	path = third_party/flatbuffers
-	url = https://github.com/google/flatbuffers.git
 [submodule "third_party/catch"]
 	path = third_party/catch
 	url = https://github.com/philsquared/Catch.git
-[submodule "third_party/grpc"]
-	path = third_party/grpc
-	url = https://github.com/gprc/grpc.git
-[submodule "third_party/lz4"]
-	path = third_party/lz4
-	url = https://github.com/lz4/lz4.git
 [submodule "third_party/sanitizers-cmake"]
 	path = third_party/sanitizers-cmake
 	url = https://github.com/arsenm/sanitizers-cmake.git
-[submodule "third_party/googleapis"]
-	path = third_party/googleapis
-	url = https://github.com/googleapis/googleapis.git
+	

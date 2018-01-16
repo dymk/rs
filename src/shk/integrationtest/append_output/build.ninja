@@ -1,4 +1,0 @@
-rule APPEND
-  command = cat $in >> $out
-
-build out: APPEND in

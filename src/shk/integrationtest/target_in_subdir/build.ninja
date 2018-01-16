@@ -1,4 +1,0 @@
-rule COPY
-  command = cp $in $out
-
-build dir/out: COPY in
