@@ -50,8 +50,6 @@ shk_library(
     include/rs/zip.h
     src/subscriber.cpp
     src/subscription.cpp
-  DEPENDENCIES
-    shk-cache-proto
   PUBLIC_INCLUDES
     include)
 
