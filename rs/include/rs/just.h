@@ -18,9 +18,19 @@
 
 namespace shk {
 
+template <typename T>
+struct JustCallable {
+	decltype(auto) operator()() {
+		return std::move(ts);
+	}
+	JustCallable(T&& t) : ts(std::forward<T&>(t)) {};
+	T ts;
+};
+
 template <typename ...Ts>
 auto Just(Ts &&...ts) {
-  return Start([ts = std::forward<Ts>(ts)] { return ts; }...);
+  // return Start([ts = std::forward<Ts>(ts)] { return ts; }...);
+  return Start(JustCallable<Ts>(std::forward<Ts>(ts))...);
 }
 
 }  // namespace shk

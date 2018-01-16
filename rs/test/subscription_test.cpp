@@ -187,6 +187,7 @@ TEST_CASE("Subscription") {
 
     SECTION("Move") {
       auto moved_dummy = std::move(dummy);
+      (void) moved_dummy;
     }
 
     SECTION("Request") {

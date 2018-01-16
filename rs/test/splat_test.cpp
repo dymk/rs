@@ -81,13 +81,13 @@ TEST_CASE("Splat") {
   }
 
   SECTION("copyable") {
-    const auto a_tuple = std::make_tuple(1);
     int called = 0;
     auto splat = Splat([&called](const int &val) {
       CHECK(val == 1);
       called++;
     });
     auto splat_2 = splat;
+    (void) splat_2;
   }
 
   SECTION("with return value") {

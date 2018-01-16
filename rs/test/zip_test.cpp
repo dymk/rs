@@ -123,7 +123,7 @@ TEST_CASE("Zip") {
     auto stream = Zip<std::tuple<int>>(Just(1, 2));
     CHECK(
         GetAll<std::tuple<int>>(stream) ==
-        (std::vector<std::tuple<int>>{ 1, 2 }));
+        (std::vector<std::tuple<int>>{ std::tuple<int>{1}, std::tuple<int>{2} }));
   }
 
   SECTION("two streams with one value") {

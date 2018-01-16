@@ -70,7 +70,7 @@ class MergeSubscription : public Subscription {
     ElementCount outstanding;
   };
 
-  template <size_t Idx, typename ...Publishers>
+  template <size_t Idx, size_t PubSize, typename ...Publishers>
   struct MergeSubscriptionBuilder {
     template <typename SubscriptionReferee>
     static auto Subscribe(
@@ -88,14 +88,14 @@ class MergeSubscription : public Subscription {
                 MergeSubscriber(Idx, std::move(subscription_ref))));
       }
 
-      return MergeSubscriptionBuilder<Idx + 1, Publishers...>::Subscribe(
+      return MergeSubscriptionBuilder<Idx + 1, PubSize, Publishers...>::Subscribe(
           std::move(wrapped_merge_subscription),
           publishers);
     }
   };
 
-  template <typename ...Publishers>
-  struct MergeSubscriptionBuilder<sizeof...(Publishers), Publishers...> {
+  template <size_t PubSize, typename ...Publishers>
+  struct MergeSubscriptionBuilder<PubSize, PubSize, Publishers...> {
     template <typename SubscriptionReferee>
     static SubscriptionReferee Subscribe(
         SubscriptionReferee &&merge_subscription,
@@ -119,7 +119,7 @@ class MergeSubscription : public Subscription {
 
     me.remaining_subscriptions_ = sizeof...(Publishers);
     me.subscriptions_.reserve(sizeof...(Publishers));
-    auto wrapped_me = MergeSubscriptionBuilder<0, Publishers...>::Subscribe(
+    auto wrapped_me = MergeSubscriptionBuilder<0, sizeof...(Publishers), Publishers...>::Subscribe(
         std::move(me), publishers);
 
     if (sizeof...(Publishers) == 0) {

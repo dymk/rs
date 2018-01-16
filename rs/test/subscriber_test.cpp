@@ -212,6 +212,7 @@ TEST_CASE("Subscriber") {
       auto sub = MakeSubscriber(
           [](auto &&) {}, [](std::exception_ptr &&) {}, [] {});
       auto moved_sub = std::move(sub);
+      (void) moved_sub;
     }
 
     SECTION("OnNext") {

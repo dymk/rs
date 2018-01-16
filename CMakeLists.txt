@@ -3,7 +3,8 @@ project(shk)
 
 enable_testing()
 
-set(SHK_COMPILER_FLAGS "-Wall -Wimplicit-fallthrough -Werror")
+# set(SHK_COMPILER_FLAGS "-Wall -Wimplicit-fallthrough -Werror")
+set(SHK_COMPILER_FLAGS "-Wall -Werror -g")
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set(CMAKE_C_ARCHIVE_CREATE   "<CMAKE_AR> Scr <TARGET> <LINK_FLAGS> <OBJECTS>")
@@ -11,6 +12,8 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set(CMAKE_C_ARCHIVE_FINISH   "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>")
   set(CMAKE_CXX_ARCHIVE_FINISH "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>")
 endif()
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 
 function(shk_cpp_target NAME)
   set_property(TARGET ${NAME} APPEND_STRING PROPERTY COMPILE_FLAGS ${SHK_COMPILER_FLAGS})

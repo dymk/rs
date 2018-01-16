@@ -133,7 +133,7 @@ class ZipSubscription : public Subscription {
   using ToSubscription = AnySubscription;
   using Subscriptions = TupleTypeMap<Tuple, ToSubscription>;
 
-  template <size_t Idx, typename ...InnerPublishers>
+  template <size_t Idx, size_t MaxIdx, typename ...InnerPublishers>
   class ZipSubscriptionBuilder {
    public:
     template <
@@ -155,7 +155,7 @@ class ZipSubscription : public Subscription {
       auto new_subscription = AnySubscription(
           std::get<Idx>(publishers).Subscribe(
               ZipSubscriber<Idx>(std::move(subscription_ref))));
-      return ZipSubscriptionBuilder<Idx + 1, InnerPublishers...>::Subscribe(
+      return ZipSubscriptionBuilder<Idx + 1, MaxIdx, InnerPublishers...>::Subscribe(
           std::move(wrapped_zip_subscription),
           publishers,
           accumulated_subscriptions...,
@@ -163,9 +163,9 @@ class ZipSubscription : public Subscription {
     }
   };
 
-  template <typename ...InnerPublishers>
+  template <size_t MaxIdx, typename ...InnerPublishers>
   class ZipSubscriptionBuilder<
-      sizeof...(InnerPublishers), InnerPublishers...> {
+      MaxIdx, MaxIdx, InnerPublishers...> {
    public:
     template <
         typename SubscriptionReferee,
@@ -192,7 +192,7 @@ class ZipSubscription : public Subscription {
       const std::tuple<Publishers...> &publishers) {
     ZipSubscription me(std::forward<Subscriber>(subscriber));
 
-    auto wrapped_me = ZipSubscriptionBuilder<0, Publishers...>::Subscribe(
+    auto wrapped_me = ZipSubscriptionBuilder<0, sizeof...(Publishers), Publishers...>::Subscribe(
         me, publishers);
     if (wrapped_me.finished_) {
       wrapped_me.subscriptions_.reset();
